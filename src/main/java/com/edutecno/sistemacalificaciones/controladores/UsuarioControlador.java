@@ -1,59 +1,47 @@
 package com.edutecno.sistemacalificaciones.controladores;
 
 import com.edutecno.sistemacalificaciones.modelos.Usuario;
+import com.edutecno.sistemacalificaciones.seguridad.ProveedorTokenJWT;
 import com.edutecno.sistemacalificaciones.servicios.UsuarioServicio;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-@Controller
+@RestController
+@RequestMapping("/api/usuarios")
 public class UsuarioControlador {
 
     private final UsuarioServicio usuarioServicio;
+    private final ProveedorTokenJWT proveedorTokenJWT;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioControlador(UsuarioServicio usuarioServicio) {
+    public UsuarioControlador(UsuarioServicio usuarioServicio, ProveedorTokenJWT proveedorTokenJWT, PasswordEncoder passwordEncoder) {
         this.usuarioServicio = usuarioServicio;
+        this.proveedorTokenJWT = proveedorTokenJWT;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/login")
-    public String mostrarLogin() {
-        return "login"; // Renderiza login.html
-    }
-
-    @GetMapping("/home")
-    public String mostrarHome(Model model, HttpSession session) {
-        // 🔥 Obtener usuario autenticado con Spring Security
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String nombreUsuario = auth.getName();
+    @PostMapping("/signin")
+    public ResponseEntity<?> iniciarSesion(@RequestBody Map<String, String> credenciales) {
+        String nombreUsuario = credenciales.get("nombreUsuario");
+        String contrasena = credenciales.get("contrasena");
 
         Optional<Usuario> usuarioOpt = usuarioServicio.buscarPorNombreUsuario(nombreUsuario);
         if (usuarioOpt.isEmpty()) {
-            return "redirect:/login";
+            return ResponseEntity.status(401).body(Map.of("error", "Usuario no encontrado"));
         }
 
         Usuario usuario = usuarioOpt.get();
-        session.setAttribute("usuario", usuario);
 
-        // 🔥 Cargar alumnos y materias desde el servicio
-        List<?> alumnos = usuarioServicio.obtenerAlumnos();
-        List<?> materias = usuarioServicio.obtenerMaterias();
+        if (!passwordEncoder.matches(contrasena, usuario.getContrasena())) {
+            return ResponseEntity.status(401).body(Map.of("error", "Contraseña incorrecta"));
+        }
 
-        // 🔥 Enviar datos a la vista
-        model.addAttribute("alumnos", alumnos);
-        model.addAttribute("materias", materias);
+        String token = proveedorTokenJWT.generarToken(usuario.getNombreUsuario(), usuario.getCorreo(), usuario.getRol().name());
 
-        return "home";
-    }
-
-    @GetMapping("/logout")
-    public String cerrarSesion(HttpSession session) {
-        session.invalidate();
-        return "redirect:/login?logout";
+        return ResponseEntity.ok(Map.of("token", token));
     }
 }

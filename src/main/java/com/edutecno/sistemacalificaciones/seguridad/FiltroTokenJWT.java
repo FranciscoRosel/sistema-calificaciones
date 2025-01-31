@@ -11,7 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component  // 🔥 Esto registra el filtro como un bean en Spring
+@Component
 public class FiltroTokenJWT extends OncePerRequestFilter {
 
     private final ProveedorTokenJWT proveedorTokenJWT;
@@ -23,9 +23,16 @@ public class FiltroTokenJWT extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        String ruta = request.getRequestURI();
+        if (ruta.contains("/api/usuarios/signin") || ruta.contains("/api/auth/buscar")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7); // Remover "Bearer "
+            token = token.substring(7);
             if (proveedorTokenJWT.validarToken(token)) {
                 String usuario = proveedorTokenJWT.obtenerNombreUsuario(token);
                 UsernamePasswordAuthenticationToken authentication =

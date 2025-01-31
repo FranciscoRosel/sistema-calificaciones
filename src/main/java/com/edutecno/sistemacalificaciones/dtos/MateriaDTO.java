@@ -1,15 +1,18 @@
 package com.edutecno.sistemacalificaciones.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.Set;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class MateriaDTO {
+
     private String nombre;
-    private Set<String> alumnos; // RUTs de los alumnos asociados
+
+    // Constructor vacío
+    public MateriaDTO() {}
+
+    // Constructor con nombre
+    public MateriaDTO(String nombre) {
+        this.nombre = nombre;
+    }
+
+    // Getters y Setters
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 }

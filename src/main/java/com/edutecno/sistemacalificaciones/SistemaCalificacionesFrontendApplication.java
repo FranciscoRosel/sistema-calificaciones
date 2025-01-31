@@ -15,38 +15,3 @@ public class SistemaCalificacionesFrontendApplication {
         SpringApplication.run(SistemaCalificacionesFrontendApplication.class, args);
     }
 }
-
-@Controller
-class VistaControlador {
-    @GetMapping("/")
-    public String mostrarPaginaInicio(Model modelo) {
-        modelo.addAttribute("mensaje", "Bienvenido al Sistema de Calificaciones");
-        return "inicio";
-    }
-
-    @GetMapping("/alumnos")
-    public String listarAlumnos(Model modelo) {
-        // Simulación de datos (reemplazar con servicio real)
-        List<String> alumnos = List.of("Juan Pérez", "María González", "Carlos López");
-        modelo.addAttribute("alumnos", alumnos);
-        return "alumnos";
-    }
-
-    @GetMapping("/materias")
-    public String listarMaterias(Model modelo) {
-        // Simulación de datos (reemplazar con servicio real)
-        List<String> materias = List.of("Matemáticas", "Historia", "Ciencias");
-        modelo.addAttribute("materias", materias);
-        return "materias";
-    }
-
-    @GetMapping("/detalle-alumno")
-    public String detalleAlumno(@RequestParam String nombre, Model modelo) {
-        modelo.addAttribute("nombre", nombre);
-        modelo.addAttribute("detalle", "Información detallada sobre " + nombre);
-        modelo.addAttribute("notas", List.of(5.0, 6.0, 4.5));
-        modelo.addAttribute("comentarios", List.of("Buen desempeño", "Debe mejorar en matemáticas", "Excelente actitud"));
-        modelo.addAttribute("asistencia", "90%");
-        return "detalle-alumno";
-    }
-}

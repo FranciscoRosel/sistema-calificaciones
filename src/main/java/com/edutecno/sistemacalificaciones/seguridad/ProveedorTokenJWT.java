@@ -3,19 +3,18 @@ package com.edutecno.sistemacalificaciones.seguridad;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
-import io.jsonwebtoken.security.Keys;
 
 @Component
 public class ProveedorTokenJWT {
 
     private static final Key CLAVE_SECRETA = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-    private static final long TIEMPO_EXPIRACION = 3600000; // 1 hora en milisegundos
+    private static final long TIEMPO_EXPIRACION = 3600000; // 1 hora
 
-    // Generar un token
     public String generarToken(String nombreUsuario, String correo, String rol) {
         return Jwts.builder()
                 .setSubject(nombreUsuario)
@@ -27,7 +26,6 @@ public class ProveedorTokenJWT {
                 .compact();
     }
 
-    // Validar un token
     public boolean validarToken(String token) {
         try {
             obtenerClaims(token);
@@ -37,12 +35,10 @@ public class ProveedorTokenJWT {
         }
     }
 
-    // Obtener el usuario del token
     public String obtenerNombreUsuario(String token) {
         return obtenerClaims(token).getSubject();
     }
 
-    // Obtener los claims del token (ahora público)
     public Claims obtenerClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(CLAVE_SECRETA)

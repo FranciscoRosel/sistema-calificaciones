@@ -5,10 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "alumnos")
 public class Alumno {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // OBLIGATORIO PARA AUTO_INCREMENT
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -17,7 +19,8 @@ public class Alumno {
     @Column(nullable = false)
     private String nombre;
 
-    private String direccion;
+    @Column(nullable = false, unique = true)
+    private String correo;
 
     @ManyToMany
     @JoinTable(
@@ -25,46 +28,21 @@ public class Alumno {
             joinColumns = @JoinColumn(name = "alumno_id"),
             inverseJoinColumns = @JoinColumn(name = "materia_id")
     )
-    private Set<Materia> listaMaterias = new HashSet<>();
+    private Set<Materia> materias = new HashSet<>();
 
     // Getters y Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getRut() { return rut; }
+    public void setRut(String rut) { this.rut = rut; }
 
-    public String getRut() {
-        return rut;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
+    public String getCorreo() { return correo; }
+    public void setCorreo(String correo) { this.correo = correo; }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public Set<Materia> getListaMaterias() {
-        return listaMaterias;
-    }
-
-    public void setListaMaterias(Set<Materia> listaMaterias) {
-        this.listaMaterias = listaMaterias;
-    }
+    public Set<Materia> getMaterias() { return materias; }
+    public void setMaterias(Set<Materia> materias) { this.materias = materias; }
 }
