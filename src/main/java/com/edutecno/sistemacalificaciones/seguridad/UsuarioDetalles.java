@@ -16,12 +16,12 @@ public class UsuarioDetalles implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // Sin roles por ahora
+        return Collections.emptyList();
     }
 
     @Override
     public String getPassword() {
-        return null; // No necesitamos contraseña aquí
+        return null;
     }
 
     @Override

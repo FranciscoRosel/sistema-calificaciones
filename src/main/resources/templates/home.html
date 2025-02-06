@@ -1,21 +1,48 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
-  <title>Inicio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Alumnos</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
-<body>
-<h1>Lista de Alumnos</h1>
-<table border="1">
-  <tr>
-    <th>Nombre</th>
-    <th>Acción</th>
-  </tr>
-  <tr th:each="alumno : ${alumnos}">
-    <td th:text="${alumno.nombre}"></td>
-    <td>
-      <a th:href="@{/detalle-alumno(id=${alumno.id})}">Ver Detalle</a>
-    </td>
-  </tr>
-</table>
+<body class="bg-light">
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Lista de Alumnos</h2>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+      <tr>
+        <th>RUT</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Dirección</th>
+        <th>Materias</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="alumno : ${alumnos}">
+        <td th:text="${alumno.rut}"></td>
+        <td th:text="${alumno.nombre}"></td>
+        <td th:text="${alumno.correo}"></td>
+        <td th:text="${alumno.direccion}"></td>
+        <td>
+          <ul class="list-unstyled">
+            <li th:each="materia : ${alumno.materias}" th:text="${materia}" class="badge bg-primary text-wrap m-1"></li>
+          </ul>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="/logout" class="btn btn-danger">Cerrar sesión</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

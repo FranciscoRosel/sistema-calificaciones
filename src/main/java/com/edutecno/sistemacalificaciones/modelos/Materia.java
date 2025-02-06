@@ -17,18 +17,15 @@ public class Materia {
     private String nombre;
 
     @ManyToMany(mappedBy = "materias", fetch = FetchType.LAZY)
-    @JsonIgnore // 🔹 Evita la recursión infinita al serializar
+    @JsonIgnore
     private Set<Alumno> alumnos = new HashSet<>();
 
-    // 🔹 Constructor vacío (obligatorio para JPA)
     public Materia() {}
 
-    // 🔹 Constructor con nombre
     public Materia(String nombre) {
         this.nombre = nombre;
     }
 
-    // 🔹 Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

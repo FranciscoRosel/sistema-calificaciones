@@ -27,7 +27,7 @@ public class ConfiguracionSeguridad {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/usuarios/signin", "/api/auth/buscar").permitAll()
                         .requestMatchers("/api/materias", "/api/alumnos").authenticated()
-                        .requestMatchers("/api/alumnos/**").authenticated() // Permite PUT en /api/alumnos/{rut}
+                        .requestMatchers("/api/alumnos/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

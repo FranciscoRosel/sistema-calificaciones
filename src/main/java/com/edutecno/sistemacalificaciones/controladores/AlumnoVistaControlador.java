@@ -16,25 +16,22 @@ public class AlumnoVistaControlador {
         this.alumnoServicio = alumnoServicio;
     }
 
-    // 🔹 Página para listar alumnos
     @GetMapping
     public String listarAlumnos(Model modelo) {
         modelo.addAttribute("alumnos", alumnoServicio.listarAlumnos());
-        return "lista-alumnos"; // Asegúrate de tener esta vista en templates
+        return "lista-alumnos";
     }
 
-    // 🔹 Obtener detalles de un alumno por su RUT
     @GetMapping("/{rut}")
     public String obtenerAlumno(@PathVariable String rut, Model modelo) {
         AlumnoDTO alumno = alumnoServicio.obtenerAlumnoPorRut(rut);
         if (alumno == null) {
-            return "error"; // Redirigir a una vista de error si el alumno no existe
+            return "error";
         }
         modelo.addAttribute("alumno", alumno);
-        return "detalle-alumno"; // Asegúrate de tener esta vista en templates
+        return "detalle-alumno";
     }
 
-    // 🔹 Mostrar formulario para agregar una materia a un alumno
     @GetMapping("/{rut}/materias")
     public String mostrarFormularioAgregarMateria(@PathVariable String rut, Model modelo) {
         AlumnoDTO alumno = alumnoServicio.obtenerAlumnoPorRut(rut);
@@ -42,10 +39,9 @@ public class AlumnoVistaControlador {
             return "error";
         }
         modelo.addAttribute("alumno", alumno);
-        return "agregar-materia"; // Vista para seleccionar y asignar materias
+        return "agregar-materia";
     }
 
-    // 🔹 Agregar materia a un alumno
     @PostMapping("/{rut}/materias/{materiaId}")
     public String agregarMateria(@PathVariable String rut, @PathVariable Long materiaId) {
         alumnoServicio.agregarMateriaAAlumno(rut, materiaId);

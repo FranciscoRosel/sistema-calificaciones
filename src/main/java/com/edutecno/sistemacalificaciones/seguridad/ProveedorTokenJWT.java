@@ -13,7 +13,7 @@ import java.util.Date;
 public class ProveedorTokenJWT {
 
     private static final Key CLAVE_SECRETA = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-    private static final long TIEMPO_EXPIRACION = 3600000; // 1 hora
+    private static final long TIEMPO_EXPIRACION = 3600000;
 
     public String generarToken(String nombreUsuario, String correo, String rol) {
         return Jwts.builder()

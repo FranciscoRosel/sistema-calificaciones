@@ -9,6 +9,5 @@ import java.util.Optional;
 @Repository
 public interface MateriaRepositorio extends JpaRepository<Materia, Long> {
 
-    // Buscar materia por nombre
     Optional<Materia> findByNombre(String nombre);
 }

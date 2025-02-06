@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "usuarios")  // 🔥 Asegura que Hibernate busque en "usuarios"
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
@@ -28,7 +28,6 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
-    // Getters y Setters
     public Long getId() {
         return id;
     }

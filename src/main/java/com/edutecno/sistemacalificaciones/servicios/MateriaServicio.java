@@ -23,7 +23,7 @@ public class MateriaServicio {
         return materiaRepositorio.save(materia);
     }
 
-    public List<Materia> listarMaterias() { // 🔴 CAMBIO AQUÍ (antes era listarMaterias)
+    public List<Materia> listarMaterias() {
         logger.info("Listando todas las materias...");
         return materiaRepositorio.findAll();
     }

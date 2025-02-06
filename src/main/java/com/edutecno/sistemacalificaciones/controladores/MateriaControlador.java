@@ -36,13 +36,13 @@ public class MateriaControlador {
         logger.info("Cantidad de materias encontradas: {}", materias.size());
         return ResponseEntity.ok(materias);
     }
-    // Obtener una sola materia por su ID
+
     @GetMapping("/{id}")
     public ResponseEntity<Materia> obtenerMateriaPorId(@PathVariable Long id) {
         Materia materia = materiaServicio.obtenerMateriaPorId(id);
         return ResponseEntity.ok(materia);
     }
-    // Actualizar una materia por ID
+
     @PutMapping("/{id}")
     public ResponseEntity<Materia> actualizarMateria(@PathVariable Long id, @RequestBody Materia materia) {
         Materia materiaActualizada = materiaServicio.actualizarMateria(id, materia);

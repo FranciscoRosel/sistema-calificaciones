@@ -9,7 +9,7 @@ import java.util.Set;
 public class Alumno {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // OBLIGATORIO PARA AUTO_INCREMENT
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
@@ -22,7 +22,7 @@ public class Alumno {
     @Column(nullable = false, unique = true)
     private String correo;
 
-    @Column(nullable = false) // 🔹 SE AÑADIÓ DIRECCIÓN COMO OBLIGATORIO
+    @Column(nullable = false)
     private String direccion;
 
     @ManyToMany
@@ -33,7 +33,6 @@ public class Alumno {
     )
     private Set<Materia> materias = new HashSet<>();
 
-    // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
