@@ -22,6 +22,9 @@ public class Alumno {
     @Column(nullable = false, unique = true)
     private String correo;
 
+    @Column(nullable = false) // 🔹 SE AÑADIÓ DIRECCIÓN COMO OBLIGATORIO
+    private String direccion;
+
     @ManyToMany
     @JoinTable(
             name = "alumno_materia",
@@ -42,6 +45,9 @@ public class Alumno {
 
     public String getCorreo() { return correo; }
     public void setCorreo(String correo) { this.correo = correo; }
+
+    public String getDireccion() { return direccion; }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
 
     public Set<Materia> getMaterias() { return materias; }
     public void setMaterias(Set<Materia> materias) { this.materias = materias; }

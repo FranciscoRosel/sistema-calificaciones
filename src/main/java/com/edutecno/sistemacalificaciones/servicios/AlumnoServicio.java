@@ -31,6 +31,7 @@ public class AlumnoServicio {
         dto.setRut(alumno.getRut());
         dto.setNombre(alumno.getNombre());
         dto.setCorreo(alumno.getCorreo());
+        dto.setDireccion(alumno.getDireccion());
 
         // 🔹 Convertir materias a nombres
         Set<String> nombresMaterias = alumno.getMaterias().stream()
@@ -62,6 +63,7 @@ public class AlumnoServicio {
         alumno.setRut(alumnoDTO.getRut());
         alumno.setNombre(alumnoDTO.getNombre());
         alumno.setCorreo(alumnoDTO.getCorreo());
+        alumno.setDireccion(alumnoDTO.getDireccion());
 
         // 🔹 Agregar materias solo con nombres
         if (alumnoDTO.getMaterias() != null) {
@@ -91,6 +93,33 @@ public class AlumnoServicio {
             alumnoRepositorio.save(alumno);
         }
     }
+    // 🔹 Actualizar un alumno
+    public AlumnoDTO actualizarAlumno(String rut, AlumnoDTO alumnoDTO) {
+        Optional<Alumno> optionalAlumno = alumnoRepositorio.findByRut(rut);
+
+        if (optionalAlumno.isPresent()) {
+            Alumno alumno = optionalAlumno.get();
+            alumno.setNombre(alumnoDTO.getNombre());
+            alumno.setCorreo(alumnoDTO.getCorreo());
+            alumno.setDireccion(alumnoDTO.getDireccion());
+
+            // Actualizar materias
+            Set<Materia> nuevasMaterias = new HashSet<>();
+            for (String nombreMateria : alumnoDTO.getMaterias()) {
+                Materia materia = materiaRepositorio.findByNombre(nombreMateria)
+                        .orElseGet(() -> new Materia(nombreMateria));
+                nuevasMaterias.add(materia);
+            }
+            alumno.setMaterias(nuevasMaterias);
+
+            // Guardar cambios
+            alumnoRepositorio.save(alumno);
+            return convertirAAlumnoDTO(alumno);
+        }
+
+        return null;
+    }
+
 
     // 🔹 Eliminar un alumno
     public void eliminarAlumno(String rut) {

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@Table(name = "usuarios")  // 🔥 Asegura que Hibernate busque en "usuarios"
 public class Usuario {
 
     @Id

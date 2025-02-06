@@ -7,7 +7,7 @@ public class AlumnoDTO {
     private String nombre;
     private String correo;
     private String direccion;
-    private Set<String> materias; // Debe ser "materias" y no "materia"
+    private Set<String> materias;
 
     public String getRut() { return rut; }
     public void setRut(String rut) { this.rut = rut; }
